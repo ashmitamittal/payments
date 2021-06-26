@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h5 style="color: white; text-align: right; padding: 15px; letter-spacing: 2px;">Wallet: Rs. {{wallet}}</h5>
+
+
+	<h1 style="color: #fff; text-align: center;">Payment History</h1>
+<div style="padding: 50px;">
+	<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">Sender</th>
+      <th scope="col">Recipient</th>
+      <th scope="col">Amount</th>
+      <th scope="col">Date/Time</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+	{% for payment in payments.items %}
+    <tr>
+        <th scope="row">{{ loop.index}}</th>
+      <td>{{payment.sender}}</td>
+      <td>{{payment.recipient}}</td>
+      <td>{{payment.amount}}</td>
+		<td>{{payment.date}}</td>
+		{% if payment.status == 'Success' %}
+      <td style=" color: green;"> Success </td>
+		{% else %}
+		<td style=" color: red;"> Fail </td>
+		{% endif %}
+    </tr>
+	{% endfor %}
+  </tbody>
+	</table>
+<div style="text-align: center;">
+    {% for page_num in payments.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+        {% if page_num %}
+            {% if payments.page == page_num %}
+            <a class="btn btn-primary mb-4"  href="{{ url_for('history', page=page_num) }}">{{ page_num }}</a>
+            {% else %}
+                <a class="btn btn-outline-info mb-4"  href="{{ url_for('history', page=page_num) }}">{{ page_num }}</a>
+
+            {% endif %}
+    {% else %}
+    <span style="color: #fff">...</span>
+        {% endif %}
+    {% endfor %}
+</div>
+</div>
+
+
+
+{% endblock %}

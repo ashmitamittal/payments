@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+
+{% with messages = get_flashed_messages() %}
+      {% if messages %}
+        {% for message in messages %}
+            {% if message == 'Payment successfully processed!' %}
+         <p  style="color: green;">{{ message }}</p>
+            {% else %}
+        <p>{{ message }}</p>
+            {% endif %}
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+<h5 style="color: white; text-align: right; padding: 15px; letter-spacing: 2px;">Wallet: Rs. {{wallet}}</h5>
+
+<div class="box">
+	<h1>Send Money</h1>
+    <form action="{{ url_for('send') }}" method="post">
+		<input type="email" name="email" placeholder="Email" required="required" />
+        <input type="text" name="amount" placeholder="Rs. Amount" required="required" />
+        <button type="submit" class="btn btn-primary btn-block btn-large">Pay</button>
+    </form>
+</div>
+
+{% endblock %}
